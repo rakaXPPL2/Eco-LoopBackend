@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,600&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --font-display: 'Fraunces', serif;
+    --font-body: 'Outfit', sans-serif;
+    --color-forest: #1f4d2e;
+    --color-forest-deep: #152e1c;
+    --color-leaf: #3a7d4f;
+    --color-sprout: #52b788;
+    --color-sprout-light: #95d5b2;
+    --color-cream: #f5f2e8;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-cream);
+    color: #1a1a1a;
+    overflow-x: hidden;
+}
+
+.font-display {
+    font-family: var(--font-display);
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-leaf); border-radius: 3px; }
+
+@keyframes float-up {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+}
+
+.float-anim { animation: float-up 4s ease-in-out infinite; }
+
+@keyframes count-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.count-up { animation: count-up 0.6s ease-out forwards; }
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
