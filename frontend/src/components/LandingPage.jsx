@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL || '').replace(/\/$/, '');
+
 const AnimatedCounter = ({ end, suffix = '' }) => {
     const [count, setCount] = useState(0);
     useEffect(() => {
@@ -48,8 +50,8 @@ const Navbar = () => {
                     <a href="#kategori" className="text-cream/80 hover:text-sprout transition-colors font-medium">Kategori</a>
                 </div>
                 <div className="flex items-center gap-3">
-                    <a href="http://your-backend-url.onrender.com/login" className="px-5 py-2 text-sprout font-semibold rounded-lg hover:bg-sprout/10 transition-colors">Masuk</a>
-                    <a href="http://your-backend-url.onrender.com/register" className="px-7 py-2 rounded-full font-semibold text-forest-deep bg-sprout hover:brightness-110 transition-all">Daftar Gratis</a>
+                    <a href={`${BACKEND_URL}/login`} className="px-5 py-2 text-sprout font-semibold rounded-lg hover:bg-sprout/10 transition-colors">Masuk</a>
+                    <a href={`${BACKEND_URL}/register`} className="px-7 py-2 rounded-full font-semibold text-forest-deep bg-sprout hover:brightness-110 transition-all">Daftar Gratis</a>
                 </div>
             </div>
         </nav>
@@ -77,10 +79,10 @@ const HeroSection = () => (
                         <span className="text-sprout-light">Voucher Karbon</span> sebagai hadiah.
                     </p>
                     <div className="flex flex-wrap gap-4 mb-14">
-                        <a href="http://your-backend-url.onrender.com/register" className="px-7 py-3.5 rounded-full font-semibold bg-sprout text-forest-deep hover:brightness-110 transition-all">
+                        <a href={`${BACKEND_URL}/register`} className="px-7 py-3.5 rounded-full font-semibold bg-sprout text-forest-deep hover:brightness-110 transition-all">
                             Mulai Sekarang — Gratis
                         </a>
-                        <a href="http://your-backend-url.onrender.com/products" className="px-7 py-3.5 rounded-full font-medium border border-cream/25 text-cream hover:bg-white/5 transition-all">
+                        <a href={`${BACKEND_URL}/products`} className="px-7 py-3.5 rounded-full font-medium border border-cream/25 text-cream hover:bg-white/5 transition-all">
                             Lihat Katalog →
                         </a>
                     </div>
@@ -169,7 +171,7 @@ const CategoriesSection = () => {
                             Apa yang bisa kamu <span className="italic text-sprout-light">jual & beli</span>
                         </h2>
                     </div>
-                    <a href="http://your-backend-url.onrender.com/products" className="text-sm font-medium text-sprout hover:opacity-80">Lihat semua →</a>
+                    <a href={`${BACKEND_URL}/products`} className="text-sm font-medium text-sprout hover:opacity-80">Lihat semua →</a>
                 </div>
                 <div className="grid md:grid-cols-3 gap-6">
                     {cats.map((cat) => (
@@ -244,10 +246,10 @@ const CTASection = () => (
                     Daftar gratis sekarang. Setiap transaksi pertama kamu sudah membantu mengurangi jejak karbon Indonesia.
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
-                    <a href="http://your-backend-url.onrender.com/register" className="px-8 py-4 rounded-full font-semibold bg-sprout text-forest-deep hover:brightness-110">
+                    <a href={`${BACKEND_URL}/register`} className="px-8 py-4 rounded-full font-semibold bg-sprout text-forest-deep hover:brightness-110">
                         Daftar Gratis Sekarang
                     </a>
-                    <a href="http://your-backend-url.onrender.com/products" className="px-8 py-4 rounded-full font-medium border border-cream/25 text-cream hover:bg-white/5">
+                    <a href={`${BACKEND_URL}/products`} className="px-8 py-4 rounded-full font-medium border border-cream/25 text-cream hover:bg-white/5"> 
                         Lihat Katalog
                     </a>
                 </div>

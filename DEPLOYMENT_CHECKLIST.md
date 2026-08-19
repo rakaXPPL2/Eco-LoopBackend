@@ -3,20 +3,24 @@
 ## ✅ Files Created for Vercel Deployment
 
 ### Configuration Files
-- [x] `vercel.json` - Vercel build configuration
+- [x] `vercel.json` - Vercel full-stack build and routing configuration
 - [x] `vercel.php` - Vercel PHP runtime configuration
 - [x] `.vercelignore` - Files to exclude from deployment
 - [x] `.env.production` - Production environment template
 - [x] `.gitignore` - Updated to exclude build artifacts
 
 ### Entry Points
-- [x] `api/index.php` - Vercel serverless function entry point
-- [x] `public/index.php` - Standard Laravel entry (existing)
+- [x] `frontend/index.html` - React/Vite frontend entry point for Vercel
+- [x] `api/index.php` - Laravel serverless function entry point
 
 ### Documentation
 - [x] `DEPLOY_VERCEL.md` - Complete deployment guide
 
 ## 🚀 Deployment Steps
+
+Vercel deploys the React frontend and Laravel backend from this repository. Database and file storage must use persistent external services.
+
+Node.js, PHP, and Composer are optional locally. Vercel provides the build/runtime environment during deployment.
 
 ### Step 1: Push to GitHub
 ```bash
@@ -34,36 +38,29 @@ git push origin main
 ```env
 APP_NAME=Eco-Loop
 APP_ENV=production
-APP_KEY=base64:xxxxx  # Generate dengan php artisan key:generate
+APP_KEY=base64:GENERATE_A_REAL_KEY
 APP_DEBUG=false
-APP_URL=https://your-domain.vercel.app
-
-# Database (PostgreSQL)
+APP_URL=https://your-project.vercel.app
 DB_CONNECTION=pgsql
 DB_HOST=your-postgres-host
 DB_PORT=5432
 DB_DATABASE=eco_loop
 DB_USERNAME=your_username
 DB_PASSWORD=your_password
-
-# Cache & Queue (Redis)
-CACHE_STORE=redis
-QUEUE_CONNECTION=redis
-REDIS_HOST=your-redis-host
-REDIS_PASSWORD=your-redis-password
-
-# Mail
-MAIL_MAILER=mailgun
-MAILGUN_DOMAIN=your-domain
-MAILGUN_SECRET=your-secret
+SESSION_DRIVER=database
+CACHE_STORE=database
+QUEUE_CONNECTION=sync
+VITE_BACKEND_URL=
 ```
+
+Leave `VITE_BACKEND_URL` empty for the all-in-one deployment. Set the Laravel variables in Vercel Environment Variables.
 
 ### Step 4: Generate APP_KEY
 ```bash
 php artisan key:generate
 ```
 
-### Step 5: Run Migrations
+### Step 5: Run Migrations on the Backend
 ```bash
 vercel env pull .env.vercel
 php artisan migrate --force

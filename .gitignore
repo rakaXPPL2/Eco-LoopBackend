@@ -1,4 +1,11 @@
 *.log
+node_modules/
+vendor/
+dist/
+build/
+.env*
+!.env.example
+!frontend/.env.example
 .DS_Store
 .env
 .env.backup
@@ -12,8 +19,6 @@
 /.vscode
 /.zed
 /auth.json
-/node_modules
-/dist
 /public/build
 /public/fonts-manifest.dev.json
 /public/hot

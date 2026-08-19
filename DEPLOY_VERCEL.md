@@ -1,13 +1,15 @@
 # Eco-Loop - Deployment Guide for Vercel
 
-Panduan lengkap untuk deploy aplikasi Eco-Loop ke Vercel via GitHub.
+Panduan deploy frontend React dan backend Laravel Eco-Loop dalam satu project Vercel via GitHub. Laravel dijalankan sebagai PHP serverless function.
 
 ## 📋 Prerequisites
 
 1. **Akun Vercel** - Daftar di [vercel.com](https://vercel.com)
 2. **GitHub Repository** - Project sudah di-push ke GitHub
-3. **Node.js 18+** - Untuk build local (opsional)
-4. **Database PostgreSQL** - Vercel menyediakan PostgreSQL gratis
+3. **Node.js, PHP, dan Composer** - Hanya diperlukan untuk testing lokal (opsional)
+4. **Database PostgreSQL** - Wajib untuk menjalankan fitur Laravel
+
+> Node.js, PHP, dan Composer tidak wajib di-install di komputer Anda untuk deploy. Vercel menjalankan proses build dan PHP runtime di servernya.
 
 ## 🚀 Langkah Deploy ke Vercel
 
@@ -22,21 +24,20 @@ Panduan lengkap untuk deploy aplikasi Eco-Loop ke Vercel via GitHub.
    - Klik "Import"
 
 4. **Konfigurasi Project**:
-   - **Framework Preset**: `Laravel` (akan auto-detect)
+   - **Framework Preset**: `Other`
    - **Root Directory**: `./` (default)
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
+   - **Build Command**: `composer install --no-dev --optimize-autoloader && npm install --prefix frontend && npm run build --prefix frontend`
+   - **Output Directory**: `frontend/dist`
 
 5. **Environment Variables** - Klik "Environment Variables" dan tambahkan:
 
    ```env
    APP_NAME=Eco-Loop
    APP_ENV=production
-   APP_KEY=  # Generate dengan php artisan key:generate
+   APP_KEY=base64:GENERATE_A_REAL_KEY
    APP_DEBUG=false
    APP_URL=https://your-project.vercel.app
 
-   # Database (Vercel PostgreSQL)
    DB_CONNECTION=pgsql
    DB_HOST=your-postgres-host
    DB_PORT=5432
@@ -44,17 +45,15 @@ Panduan lengkap untuk deploy aplikasi Eco-Loop ke Vercel via GitHub.
    DB_USERNAME=your_username
    DB_PASSWORD=your_password
 
-   # Redis (Vercel KV - opsional)
-   CACHE_STORE=redis
-   QUEUE_CONNECTION=redis
-   REDIS_HOST=your-redis-host
-   REDIS_PASSWORD=your-redis-password
+   SESSION_DRIVER=database
+   CACHE_STORE=database
+   QUEUE_CONNECTION=sync
 
-   # Mail (Mailgun)
-   MAIL_MAILER=mailgun
-   MAILGUN_DOMAIN=your-domain
-   MAILGUN_SECRET=your-secret
+   # Kosongkan untuk memakai domain Vercel yang sama
+   VITE_BACKEND_URL=
    ```
+
+   Tambahkan konfigurasi Redis, mail, dan S3 bila fitur tersebut digunakan. Database dan storage harus persisten karena filesystem Vercel bersifat sementara.
 
 6. **Klik** "Deploy"
 
@@ -96,10 +95,7 @@ Copy hasil ke environment variable `APP_KEY` di Vercel Dashboard.
 
 ### 2. Setup Database
 
-1. Buat PostgreSQL database di Vercel:
-   - Buka project → Storage → Create Database
-   - Pilih PostgreSQL
-   - Copy connection string
+1. Buat PostgreSQL database pada provider yang mendukung koneksi eksternal.
 
 2. Update environment variables dengan credentials baru
 
@@ -138,7 +134,10 @@ eco-loop/
 ├── .vercelignore        # File yang tidak di-deploy
 ├── api/
 │   └── index.php        # Entry point untuk Vercel
-├── dist/                # Output build (auto-generated)
+├── frontend/
+│   ├── src/              # React landing page
+│   ├── dist/             # Output build (auto-generated)
+│   └── vercel.json
 ├── resources/
 │   ├── css/
 │   ├── js/
@@ -179,11 +178,11 @@ npm run build
 **Penyebab**: Build output directory salah
 
 **Solusi**: Pastikan `vercel.json` memiliki:
-```json
-{
-  "outputDirectory": "dist"
-}
-```
+Pastikan `outputDirectory` di Vercel adalah `frontend/dist` dan root directory tetap `./`.
+
+### Tombol Masuk atau Daftar Mengarah ke URL Salah
+
+Atur `VITE_BACKEND_URL` pada Environment Variables Vercel ke URL backend Laravel tanpa slash di akhir, lalu lakukan redeploy.
 
 ### Halaman Putih
 
